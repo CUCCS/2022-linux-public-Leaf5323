@@ -51,7 +51,7 @@ sudo netplan apply
 
 首先`scp`是基于SSH连接的，由于写报告时已经完成了宿主机SSH连接虚拟机，了解了用法之后直接切换到宿主机下载目录尝试传了目录下的一张图片到虚拟机用户目录下临时创建的`~/temp/`文件夹，操作如下：
 
-```cmd
+```PowerShell
 scp .\600px-Vigenère_square.svg.png cirno@192.168.56.101:~/temp/
 ```
 
@@ -63,7 +63,7 @@ scp .\600px-Vigenère_square.svg.png cirno@192.168.56.101:~/temp/
 
 远程Linux系统这边为了保证可以进行文件传输挑了阿里云Linux文件与权限的实验平台，同样是SSH远程连接后先创建了`~/temp/`，同样是把向虚拟机传的那张图片传到实验平台上，操作如下：
 
-```cmd
+```PowerShell
 scp .\600px-Vigenère_square.svg.png root@101.133.140.86:~/temp/
 ```
 
@@ -74,6 +74,15 @@ scp .\600px-Vigenère_square.svg.png root@101.133.140.86:~/temp/
 ![screenShot](./img/vpsScpFileReceive.png "说起来这些服务器系统是不会为用户默认创建类似Document、Download这样的文件夹吗，真奇怪")
 
 ### 配置SSH免密登录
+
+>2022/3/7 Update  
+Windows端PowerShell使用`type`配合`ssh`与`cat`把`id_rsa.pub`保存在`~/.ssh/authorized_keys`后就可以实现免密登录了，操作与截图如下：  
+
+```PowerShell
+type C:\Users\leaf2\.ssh\id_rsa.pub | ssh cirno@192.168.56.101 "cat >> ~/.ssh/authorized_keys"
+```
+
+>![screenShot](./img/winSshLogin.png "话说公钥的话，是不是其实可以不用打码")
 
 简单的资料查找之后，了解到其实是使用`ssh-copy-id`这个工具，原理是把本地的公钥放到远程系统`~/.ssh`目录下，对应ID会被存入SSH的authorized_keys里面，理论存在，实践开始。
 
@@ -118,3 +127,4 @@ ssh-copy-id -i ~/.ssh/id_rsa/pub root@101.133.140.86
 - [Install second network interface on virtualized Ubuntu Server](https://askubuntu.com/questions/778392/install-second-network-interface-on-virtualized-ubuntu-server)
 - [How to Use SCP Command to Securely Transfer Files](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
 - [SSH 三步解决免密登录](https://blog.csdn.net/jeikerxiao/article/details/84105529)
+- [Windows 10 OpenSSH Equivalent of ssh-copy-id](https://www.chrisjhart.com/Windows-10-ssh-copy-id/)
