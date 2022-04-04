@@ -170,7 +170,7 @@ lvcreate -l 100%FREE -n test-lv-2 test-vg-2
 lsblk
 mkfs.ext4 /dev/test-vg-1/test-lv-1
 mkfs.ext4 /dev/test-vg-2/test-lv-2
-#使用lvs确认块设备情况，接下来进行test-lv-1的扩容与test-lv-2的减容
+#使用lvs确认逻辑分卷情况，接下来进行test-lv-1的扩容与test-lv-2的减容
 lvs
 lvresize --size +8G --resizefs test-vg-1/test-lv-1
 lvresize --size -4G --resizefs test-vg-2/test-lv-2
@@ -184,9 +184,45 @@ lvs
 
 ### 通过systemd设置实现在网络连通与网络断开时分别运行不同的脚本
 
-关于systemd的认识我只停留在使用Arch时偶尔需要改动服务的自启动与故障服务的排查，和这个题目相似逻辑上应该也是需要调整相关的配置文件以实现条件触发脚本启动，总之是需要彻底了解一下systemd的工作原理了。
+根据在网上查找到的类似需求内容了解到，逻辑上只需要在写配置文件时在[Unit]内加上关于Wants、After和BindsTo的字段就可以实现按条件触发，但是操作起来发现没有办法检测网络断开...按照我目前的理解，systemd的字段内的依赖也需要是systemd的服务或者是target组，而且一般服务的逻辑是正常在后台运行，实现自动配置，也就是不会出现单纯的网络断开就会服务退出的情况，除非自己手写。
+
+但是这里还是有逻辑上的问题：写一个后台定期检测连通性的服务，怎么样把检测的结果传给systemd？不知道。所以最后的决定是做了基于已有的network-online.target进行检测的，用之前在Oeasy老师那学来的`cowsay`提示一下网络状态改变，配置如下：
+
+```networkOnline.service
+[Unit]
+After=network-online.target
+Wants=network-online.target
+Requires=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=-/usr/games/cowsay -f eyes "You're back online."
+ExecStop=-/usr/games/cowsay -f eyes "You're offline."
+RemainAfterExit=true
+StandardOutput=tty
+
+[Install]
+WantedBy=multi-user.target
+```
+
+通过tty进行输出的内容asciinema录不进去，所以决定截图了，截图如下：
+
+![screenShot](./img/serviceRestart.png)
+
+![screenShot](./img/simulateNetworkOffline.png)
+
+本来还有重启network-online.target后重新显示恢复online的消息的，准备截图时发现修不好了，于是只能这样了（无奈）
 
 ### 通过systemd设置实现杀不死脚本
+
+这个逻辑比上面的那个简单一点，创建配置文件时在[Service]内加上“Restart=always”应该就可以了。操作如下：
+
+```*.service
+[Service]
+Restart=always
+```
+
+这个确实不需要录屏了，本身就是杀掉又会重启，录屏也只是一次一次查看status而已。
 
 ## 总结与整理
 
@@ -194,9 +230,11 @@ lvs
 
 ### 一些趣事
 
-- 感慨合着我之前自己学会装Arch，对于Linux的了解都是“过时的”吗？像用到的`fdisk`因为不能处理2TB以上硬盘就应该用`gdisk`或者`partd`了，说到fstab也是，忘了是课上还是在讨论区看到老师说fstab属于“老式Linux的解决办法”，小查了一下发现确实是可以用systemd来实现挂载，但是感觉就是回到了systemd的争论：关于做一件事并将其做好的Unix哲学...倒不是非要说谁对谁错，只是为这种不完全否定而心情复杂。
+- 感慨一下，合着我之前自己学会装Arch，对于Linux的了解都是“过时的”吗？像用到的`fdisk`因为不能处理2TB以上硬盘就应该用`gdisk`或者`partd`了，说到fstab也是，忘了是课上还是在讨论区看到老师说fstab属于“老式Linux的解决办法”，小查了一下发现确实是可以用systemd来实现挂载，但是感觉就是回到了systemd的争论：关于做一件事并将其做好的Unix哲学...倒不是非要说谁对谁错，只是为这种不完全否定而心情复杂。
 
 - reddit上有人提出了“To LVM or not to LVM, that is the question...”，这种逻辑分卷在划分时实在太需要清晰的分区规划了，但是又可以很不需要规划地随便搭配物理卷组，对于有没有必要使用LVM在个人角度其实更偏向于否定的答案，但是如果是大型的服务器可能就未必，LVM诚然提供了太多实用性很强的功能，包括这次实验内容涉及的便利的容量调整以及不涉及的备份功能等等。说起来还是只要维护的人烧脑子就好，剩下的使用者们果然还是轻松太多了啊XD
+
+- 对于systemd的了解比原来加深了，只是关于服务层面的网络连通性判断这块无论如何也没有办法实现，甚至查Google都查不出来，凡事找自己的问题，是我菜的安详。
 
 ### 一些踩坑
 
@@ -213,3 +251,7 @@ lvs
 - [Mounting VirtualBox shared folders on Ubuntu Server 18.04 LTS (Bionic Beaver)](https://gist.github.com/estorgio/0c76e29c0439e683caca694f338d4003)
 
 - [第三章：Linux服务器系统管理基础](https://github.com/c4pr1c3/LinuxSysAdmin/blob/master/chap0x03.md)
+
+- [systemdので起動したアプリケーションのprintfを標準出力に表示したい](https://armadillo.atmark-techno.com/forum/armadillo/7302)
+
+- [restart systemd service if network connection is down](https://stackoverflow.com/questions/48688993/restart-systemd-service-if-network-connection-is-down)
