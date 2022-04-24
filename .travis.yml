@@ -5,9 +5,7 @@ before_install:
   - sudo apt install shellcheck -y
   - sudo apt install imagemagick -y
   - sudo apt install p7zip-full -y
-  - sudo apt install neofetch -y
 script:
-  - neofetch
   - cd ./chap0x04/sh
   - wget "https://raw.githubusercontent.com/c4pr1c3/LinuxSysAdmin/master/exp/chap0x04/worldcupplayerinfo.tsv"
   - wget "https://raw.githubusercontent.com/c4pr1c3/LinuxSysAdmin/master/exp/chap0x04/web_log.tsv.7z"
