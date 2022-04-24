@@ -9,10 +9,11 @@ function manual {
     echo "    -u, --url                        输出最频繁被访问的URL TOP100"
     echo "    -s, --status                     输出不同响应状态码出现的次数与对应百分比"
     echo "    -e, --error                      输出不同4XX状态码的对应TOP10 URL与对应出现的总次数"
-    echo "    -c, --check URL                  输出给定URL的TOP100访问来源主机"
+    echo "    -c, --check URL                  输出给定URL的TOP100访问来源主机与分别对应访问的总次数"
     echo "    -h, --help                       显示这条帮助信息"
     echo "示例:"
-    
+    echo "    ./task3.sh -t ip                 输出IP格式的访问来源主机与其分别对应出现的总次数"
+    echo "    ./task3.sh --check "history.html"输出URL位history.html的TOP100访问来源主机与分别对应访问的总次数"
 }
 
 function top {
