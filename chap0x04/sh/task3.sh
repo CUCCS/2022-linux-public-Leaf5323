@@ -13,7 +13,7 @@ function manual {
     echo "    -h, --help                       显示这条帮助信息"
     echo "示例:"
     echo "    ./task3.sh -t ip                 输出IP格式的访问来源主机与其分别对应出现的总次数"
-    echo "    ./task3.sh --check "history.html"输出URL位history.html的TOP100访问来源主机与分别对应访问的总次数"
+    echo "    ./task3.sh --check "history.html"  输出URL位history.html的TOP100访问来源主机与分别对应访问的总次数"
 }
 
 function top {
