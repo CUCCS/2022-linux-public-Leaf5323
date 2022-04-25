@@ -55,7 +55,6 @@
 
     - [x] 给定URL输出TOP 100访问来源主机
 
-
 ## 问题解决记录
 
 首先是下面这个明示了成功的绿色
@@ -75,6 +74,38 @@
 如下是脚本的帮助信息：
 
 ![screenShot](./img/task1.png)
+
+#### 功能演示部分
+
+由于情况特殊，这里需要专门附上Travis不能演示的图像处理操作截图
+
+首先是压缩图像，操作截图如下：
+
+![screenShot](./img/compress.png)
+
+然后是调整图像分辨率，操作截图如下：
+
+![screenShot](./img/resize.png)
+
+添加水印，这里操作失误，字符串里带了空格所以只显示了Test字样，通过VSCode Remote SSH连接到虚拟机查看前后图片对比，如下图所示：
+
+![screenShot](./img/beforeWatermark.png)
+
+![screenShot](./img/afterWatermark.png)
+
+添加前缀，操作截图如下：
+
+![screenShot](./img/prefix.png)
+
+添加后缀，操作截图如下：
+
+![screenShot](./img/suffix.png)
+
+转换格式，操作截图如下：
+
+![screenShot](./img/format.png)
+
+这样可以证明task1.sh是可以工作的了。
 
 ### 任务二
 
