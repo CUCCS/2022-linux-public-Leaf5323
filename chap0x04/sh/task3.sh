@@ -210,6 +210,9 @@ case "$1" in
     "-s"|"--status")
         status
         ;;
+    "-e"|"--error")
+        error
+        ;;
     "-c"|"--check")
         if [[ "$2" == "" ]];then
             echo "缺少参数,请参考帮助信息"
