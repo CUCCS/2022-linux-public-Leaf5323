@@ -1,0 +1,33 @@
+# language: bash
+# before_install:
+#   - sudo apt update
+#   - sudo apt upgrade -y
+#   - sudo apt install shellcheck -y
+#   - sudo apt install imagemagick -y
+#   - sudo apt install p7zip-full -y
+# script:
+#   - cd ./chap0x04/sh
+#   - wget "https://raw.githubusercontent.com/c4pr1c3/LinuxSysAdmin/master/exp/chap0x04/worldcupplayerinfo.tsv"
+#   - wget "https://raw.githubusercontent.com/c4pr1c3/LinuxSysAdmin/master/exp/chap0x04/web_log.tsv.7z"
+#   - 7z x web_log.tsv.7z
+#   - ls -lh
+#   - chmod +x ./task1.sh ./task2.sh ./task3.sh
+#   - ls -lh
+#   - ./task1.sh -h
+#   - ./task2.sh -h
+#   - ./task2.sh -s
+#   - ./task2.sh -p
+#   - ./task2.sh -n longest
+#   - ./task2.sh -n shortest
+#   - ./task2.sh -a oldest
+#   - ./task2.sh -a youngest
+#   - ./task3.sh -h
+#   - ./task3.sh -t
+#   - ./task3.sh -t ip
+#   - ./task3.sh -u
+#   - ./task3.sh -s
+#   - ./task3.sh -e
+#   - ./task3.sh -c "/history/history.html"
+# notifications:
+#   email:
+#     on_success: never
