@@ -57,13 +57,21 @@
 
 ## 问题解决记录
 
-首先是下面这个明示了成功的绿色
+>首先是下面这个明示了成功的绿色
+>
+>👇👇👇
+>
+>[![Build Status](https://app.travis-ci.com/CUCCS/2022-linux-public-Leaf5323.svg?branch=chap0x04)](https://app.travis-ci.com/CUCCS/2022-linux-public-Leaf5323)
+>
+>可以去[这里](https://app.travis-ci.com/github/CUCCS/2022-linux-public-Leaf5323)查看Travis CI的页面，里面有详细的演示过程。
+
+以上👆👆👆为本次作业迁移自动构建到Github Actions之前的历史遗迹，原本Travis用来构建的yml文件也注释掉内容了，据说组织的构建次数用尽了，目前被迫迁移到了免费的Github Actions(Travis甚至不愿意让个人用户免费用，差评)
+
+虽然说可以直接在仓库页面进入Actions页面，这里还是好心贴上链接吧
 
 👇👇👇
 
-[![Build Status](https://app.travis-ci.com/CUCCS/2022-linux-public-Leaf5323.svg?branch=chap0x04)](https://app.travis-ci.com/CUCCS/2022-linux-public-Leaf5323)
-
-可以去[这里](https://app.travis-ci.com/github/CUCCS/2022-linux-public-Leaf5323)查看Travis CI的页面，里面有详细的演示过程。
+[🔗点我进入自动构建演示页面🔗](https://github.com/CUCCS/2022-linux-public-Leaf5323/actions/workflows/build.yml)
 
 此外报告内容会比较简陋，因为实在没有什么可以记录的，shellcheck已经检测了绝大多数语法错误，剩下的只不过是终端里面的跑不通或者格式调整，哪怕想要稍微写详细一点也是会有上千条错误与对应的错误内容截图，于是这里仅记录最基础的内容。
 
