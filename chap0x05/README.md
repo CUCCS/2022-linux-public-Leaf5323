@@ -453,6 +453,20 @@ sudo apt install apache2-utils
 
 DVWA的频率限制因设置了仅宿主机192.168.56.254可实现访问，测试过程出现100%访问成功率其实为“友好错误提示信息页面-2”，另外没有找到合适的办法在浏览器给到频率>50访问/秒的情况，没能截图到“错误提示信息页面-4”
 
+#### block curl访问
+
+在`配置>基本设置>匹配规则`中添加curl的Matcher，使用User Agent进行基础的curl排除：
+
+![screenShot](./img/curlMatcher.png)
+
+然后简单地在`配置>自定义动作>拦截规则`中利用Matcher拦截curl访问即可：
+
+![screenShot](./img/curlBlock.png)
+
+在终端尝试使用curl访问wp.cuc.edu.cn得到如下结果：
+
+![screenShot](./img/curlBlockSuccess.png)
+
 ## 总结与整理
 
 遇到的问题或者踩的坑就在这里总结吧。
